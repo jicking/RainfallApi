@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RainfallApi.Queries;
 using RainfallApi.ResponseModels;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RainfallApi.Controllers;
@@ -37,38 +38,49 @@ public class RainfallController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
     public async Task<IActionResult> GetRainfallReadingsAsync(string stationId, [FromQuery] int count = 10)
     {
-        if (count < 0 && count > 100)
+        try
         {
-            var errorResponse = new ErrorResponse()
+            if (count <= 0 || count > 100)
             {
-                Details = new List<ErrorDetail>()
+                var errorResponse = new ErrorResponse()
+                {
+                    Details = new List<ErrorDetail>()
                 {
                     new ErrorDetail()
                     {
                         PropertyName = "count",
-                        Message = "parameter count must be between 1 to 100"
+                        Message = ErrorMessages.GetRainfallReadingBadRequestInvalidCount
                     }
                 },
-                Message = "Invalid request"
+                    Message = ErrorMessages.GetRainfallReadingBadRequest
+                };
+                return BadRequest(errorResponse);
+            }
+
+            var readings = await _mediator.Send(new GetReadingsByStationQuery(stationId, count));
+
+            if (!readings.Any())
+            {
+                var errorResponse = new ErrorResponse()
+                {
+                    Message = ErrorMessages.GetRainfallReadingNotFound
+                };
+                return NotFound(errorResponse);
+            }
+
+            var response = new RainfallReadingResponse
+            {
+                Readings = readings.ToList(),
             };
-            return BadRequest(errorResponse);
+            return Ok(response);
         }
-
-        var readings = await _mediator.Send(new GetReadingsByStationQuery(stationId, count));
-
-        if (!readings.Any())
+        catch (Exception ex)
         {
             var errorResponse = new ErrorResponse()
             {
-                Message = "No readings found for the specified stationId"
+                Message = ex.Message
             };
-            return NotFound(errorResponse);
+            return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
         }
-
-        var response = new RainfallReadingResponse
-        {
-            Readings = readings.ToList(),
-        };
-        return Ok(response);
     }
 }
