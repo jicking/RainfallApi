@@ -3,7 +3,7 @@
 public class ErrorResponse
 {
     public required string Message { get; set; }
-    public required List<ErrorDetail> Details { get; set; }
+    public List<ErrorDetail> Details { get; set; }
 }
 
 public class ErrorDetail
