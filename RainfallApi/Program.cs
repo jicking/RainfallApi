@@ -1,5 +1,6 @@
 using Microsoft.OpenApi.Models;
 using RainfallApi;
+using RainfallApi.App;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,11 @@ builder.Services.AddSwaggerGen(options =>
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+builder.Services.AddHttpClient(Constants.EnvironmentAgencyRainfallAPI, httpClient =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration[Constants.EnvironmentAgencyRainfallAPI].ToString());
 });
 
 var app = builder.Build();

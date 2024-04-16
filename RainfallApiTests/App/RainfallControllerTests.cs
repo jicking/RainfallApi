@@ -53,7 +53,7 @@ public class RainfallControllerTests
         var objectResult = Assert.IsType<NotFoundObjectResult>(result);
         Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
         var model = Assert.IsType<ErrorResponse>(objectResult.Value);
-        Assert.Equal(ErrorMessages.GetRainfallReadingNotFound, model.Message);
+        Assert.Equal(Constants.ErrorMessageReadingNotFound, model.Message);
     }
 
     [Theory()]
@@ -72,7 +72,7 @@ public class RainfallControllerTests
         var objectResult = Assert.IsType<BadRequestObjectResult>(result);
         Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
         var model = Assert.IsType<ErrorResponse>(objectResult.Value);
-        Assert.Equal(ErrorMessages.GetRainfallReadingBadRequest, model.Message);
+        Assert.Equal(Constants.ErrorMessageReadingBadRequest, model.Message);
     }
 
     [Fact()]

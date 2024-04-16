@@ -47,10 +47,10 @@ public class RainfallController : Controller
                     new ErrorDetail()
                     {
                         PropertyName = "count",
-                        Message = ErrorMessages.GetRainfallReadingBadRequestInvalidCount
+                        Message = Constants.ErrorMessageReadingBadRequestInvalidCount
                     }
                 },
-                    Message = ErrorMessages.GetRainfallReadingBadRequest
+                    Message = Constants.ErrorMessageReadingBadRequest
                 };
                 return BadRequest(errorResponse);
             }
@@ -61,7 +61,7 @@ public class RainfallController : Controller
             {
                 var errorResponse = new ErrorResponse()
                 {
-                    Message = ErrorMessages.GetRainfallReadingNotFound
+                    Message = Constants.ErrorMessageReadingNotFound
                 };
                 return NotFound(errorResponse);
             }
