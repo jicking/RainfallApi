@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RainfallApi.App.Queries;
@@ -33,6 +34,7 @@ public class RainfallControllerTests
 
         // Assert
         var objectResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         var model = Assert.IsType<RainfallReadingResponse>(objectResult.Value);
         Assert.True(model.Readings.Any());
     }
@@ -49,6 +51,7 @@ public class RainfallControllerTests
 
         // Assert
         var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
         var model = Assert.IsType<ErrorResponse>(objectResult.Value);
         Assert.Equal(ErrorMessages.GetRainfallReadingNotFound, model.Message);
     }
@@ -67,13 +70,26 @@ public class RainfallControllerTests
 
         // Assert
         var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
         var model = Assert.IsType<ErrorResponse>(objectResult.Value);
         Assert.Equal(ErrorMessages.GetRainfallReadingBadRequest, model.Message);
     }
 
     [Fact()]
-    public void GetRainfallReadingsAsync_ExceptionTest()
+    public async void GetRainfallReadingsAsync_ExceptionTest()
     {
-        Xunit.Assert.Fail("This test needs an implementation");
+        // Arrange
+        const string exceptionMessage = "Test Exception Message";
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetReadingsByStationQuery>(), CancellationToken.None))
+                     .ThrowsAsync(new Exception(exceptionMessage));
+
+        // Act
+        var result = await _sut.GetRainfallReadingsAsync("1", 1);
+
+        // Assert
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        var model = Assert.IsType<ErrorResponse>(objectResult.Value);
+        Assert.Equal(exceptionMessage, model.Message);
     }
 }
