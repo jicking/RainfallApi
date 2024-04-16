@@ -1,4 +1,4 @@
-﻿namespace RainfallApi;
+﻿namespace RainfallApi.App;
 
 public static class ErrorMessages
 {

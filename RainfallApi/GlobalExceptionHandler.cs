@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using RainfallApi.ResponseModels;
+using RainfallApi.App.ResponseModels;
 
-namespace RainfallApi.ExceptionHandlers;
+namespace RainfallApi;
 
 internal sealed class GlobalExceptionHandler : IExceptionHandler
 {

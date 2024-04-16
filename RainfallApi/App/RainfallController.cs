@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using RainfallApi.Queries;
-using RainfallApi.ResponseModels;
+using RainfallApi.App.Queries;
+using RainfallApi.App.ResponseModels;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace RainfallApi.Controllers;
+namespace RainfallApi.App;
 
 [ApiController]
 [Route("rainfall")]
@@ -17,7 +15,7 @@ public class RainfallController : Controller
 
     public RainfallController(IMediator mediator)
     {
-        this._mediator = mediator;
+        _mediator = mediator;
     }
 
     /// <summary>

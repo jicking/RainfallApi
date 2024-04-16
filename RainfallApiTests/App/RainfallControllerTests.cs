@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using RainfallApi.Queries;
-using RainfallApi.ResponseModels;
+using RainfallApi.App.Queries;
+using RainfallApi.App.ResponseModels;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace RainfallApi.Controllers.Tests;
+namespace RainfallApi.App.Tests;
 
 public class RainfallControllerTests
 {

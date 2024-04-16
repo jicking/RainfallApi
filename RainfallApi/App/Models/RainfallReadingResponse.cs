@@ -1,6 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 
-namespace RainfallApi.ResponseModels;
+namespace RainfallApi.App.ResponseModels;
 
 [SwaggerSchema(Title = "Rainfall reading", Description = "Details of a rainfall reading")]
 public record RainfallReading

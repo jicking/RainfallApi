@@ -1,5 +1,5 @@
 using Microsoft.OpenApi.Models;
-using RainfallApi.ExceptionHandlers;
+using RainfallApi;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
