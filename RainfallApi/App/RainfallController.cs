@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RainfallApi.App.Queries;
 using RainfallApi.App.ResponseModels;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 
 namespace RainfallApi.App;
 
@@ -12,10 +13,12 @@ namespace RainfallApi.App;
 public class RainfallController : Controller
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<RainfallController> _logger;
 
-    public RainfallController(IMediator mediator)
+    public RainfallController(IMediator mediator, ILogger<RainfallController> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
 
     /// <summary>
@@ -75,6 +78,7 @@ public class RainfallController : Controller
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, $"Exception occurred: {ex.Message}");
             var errorResponse = new ErrorResponse()
             {
                 Message = ex.Message

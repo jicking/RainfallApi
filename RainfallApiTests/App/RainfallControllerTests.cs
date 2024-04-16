@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using RainfallApi.App.Queries;
 using RainfallApi.App.ResponseModels;
@@ -16,8 +17,9 @@ public class RainfallControllerTests
 
     public RainfallControllerTests()
     {
+        var logger = NullLogger<RainfallController>.Instance;
         _mediatorMock = new Mock<IMediator>();
-        _sut = new RainfallController(_mediatorMock.Object);
+        _sut = new RainfallController(_mediatorMock.Object, logger);
     }
 
     [Fact()]
