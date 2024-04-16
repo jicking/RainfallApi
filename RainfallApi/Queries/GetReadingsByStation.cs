@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using RainfallApi.ResponseModels;
 
-namespace RainfallApi.App.Queries;
+namespace RainfallApi.Queries;
 
 public record GetReadingsByStationQuery(string Id, int count = 10) : IRequest<IList<RainfallReading>>;
 

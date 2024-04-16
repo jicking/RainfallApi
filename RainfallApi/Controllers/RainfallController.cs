@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using RainfallApi.App.Queries;
-using RainfallApi.Models;
+using RainfallApi.Queries;
+using RainfallApi.ResponseModels;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -43,7 +43,18 @@ public class RainfallController : Controller
         {
             if (count < 0 && count > 100)
             {
-                return BadRequest();
+                var errorResponse = new ErrorResponse()
+                {
+                    Details = new List<ErrorDetail>()
+                    {
+                        new ErrorDetail()
+                        {
+                            PropertyName = "count",
+                            Message = "count must be between 1 to 100"
+                        }
+                    },
+                    Message = "Invalid request"
+                };
             }
 
             var readings = await _mediator.Send(new GetReadingsByStationQuery(stationId, count));
@@ -52,7 +63,6 @@ public class RainfallController : Controller
             {
                 var errorResponse = new ErrorResponse()
                 {
-                    Details = new List<ErrorDetail>(),
                     Message = "No readings found for the specified stationId"
                 };
                 return NotFound(errorResponse);
@@ -66,8 +76,9 @@ public class RainfallController : Controller
         }
         catch (Exception ex)
         {
+            _logger.LogError(message: ex.Message, exception: ex);
+
             var errorResponse = new ErrorResponse() { 
-                Details = new List<ErrorDetail>(),
                 Message = ex.Message
             };
 
