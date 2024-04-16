@@ -33,19 +33,16 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-builder.Services.AddHttpClient(Constants.EnvironmentAgencyRainfallAPI, httpClient =>
+builder.Services.AddHttpClient<IUKRainfallService, UKRainfallService>(httpClient =>
 {
-    httpClient.BaseAddress = new Uri(builder.Configuration[Constants.EnvironmentAgencyRainfallAPI].ToString());
+    httpClient.BaseAddress = new Uri(builder.Configuration[Constants.UKRainfallAPI].ToString());
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

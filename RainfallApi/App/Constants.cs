@@ -6,6 +6,6 @@ public static class Constants
     public const string ErrorMessageReadingBadRequest = "Invalid request";
     public const string ErrorMessageReadingBadRequestInvalidCount = "Parameter count must be between 1 to 100";
 
-    public const string EnvironmentAgencyRainfallAPI = "EnvironmentAgencyRainfallAPI";
+    public const string UKRainfallAPI = "UKRainfallAPI";
 
 }
