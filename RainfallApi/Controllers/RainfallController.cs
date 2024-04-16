@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RainfallApi.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace RainfallApi.Controllers;
 
@@ -24,8 +25,8 @@ public class RainfallController : Controller
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RainfallReadingResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
-    public IActionResult GetRainfallReadings(string stationId, [FromQuery] int count = 10)
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]  
+    public IActionResult GetRainfallReadings(string stationId, [FromQuery, Range(1, 100)] int count = 10)
     {
         var readings = new List<RainfallReading>
         {
