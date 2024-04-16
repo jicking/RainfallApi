@@ -12,12 +12,10 @@ namespace RainfallApi.Controllers;
 [SwaggerTag("Rainfall")]
 public class RainfallController : Controller
 {
-    private readonly ILogger<RainfallController> _logger;
     private readonly IMediator _mediator;
 
-    public RainfallController(ILogger<RainfallController> logger, IMediator mediator)
+    public RainfallController(IMediator mediator)
     {
-        this._logger = logger;
         this._mediator = mediator;
     }
 
@@ -37,52 +35,40 @@ public class RainfallController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
-    public async Task<IActionResult> GetRainfallReadingsAsync(string stationId, [FromQuery, Range(1, 100)] int count = 10)
+    public async Task<IActionResult> GetRainfallReadingsAsync(string stationId, [FromQuery] int count = 10)
     {
-        try
+        if (count < 0 && count > 100)
         {
-            if (count < 0 && count > 100)
+            var errorResponse = new ErrorResponse()
             {
-                var errorResponse = new ErrorResponse()
+                Details = new List<ErrorDetail>()
                 {
-                    Details = new List<ErrorDetail>()
+                    new ErrorDetail()
                     {
-                        new ErrorDetail()
-                        {
-                            PropertyName = "count",
-                            Message = "count must be between 1 to 100"
-                        }
-                    },
-                    Message = "Invalid request"
-                };
-            }
-
-            var readings = await _mediator.Send(new GetReadingsByStationQuery(stationId, count));
-
-            if (!readings.Any())
-            {
-                var errorResponse = new ErrorResponse()
-                {
-                    Message = "No readings found for the specified stationId"
-                };
-                return NotFound(errorResponse);
-            }
-
-            var response = new RainfallReadingResponse
-            {
-                Readings = readings.ToList(),
+                        PropertyName = "count",
+                        Message = "parameter count must be between 1 to 100"
+                    }
+                },
+                Message = "Invalid request"
             };
-            return Ok(response);
+            return BadRequest(errorResponse);
         }
-        catch (Exception ex)
+
+        var readings = await _mediator.Send(new GetReadingsByStationQuery(stationId, count));
+
+        if (!readings.Any())
         {
-            _logger.LogError(message: ex.Message, exception: ex);
-
-            var errorResponse = new ErrorResponse() { 
-                Message = ex.Message
+            var errorResponse = new ErrorResponse()
+            {
+                Message = "No readings found for the specified stationId"
             };
-
-            return StatusCode(500, errorResponse);
+            return NotFound(errorResponse);
         }
+
+        var response = new RainfallReadingResponse
+        {
+            Readings = readings.ToList(),
+        };
+        return Ok(response);
     }
 }
