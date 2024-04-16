@@ -34,6 +34,7 @@ public class RainfallController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> GetRainfallReadingsAsync(string stationId, [FromQuery] int count = 10)
     {
         try
