@@ -14,7 +14,11 @@ public class RainfallController : Controller
     /// </summary>
     /// <param name="stationId">The id of the reading station</param>
     /// <param name="count">The number of readings to return</param>
-    /// <returns> A list of rainfall readings successfully retrieved </returns>
+    /// <returns>A list of rainfall readings successfully retrieved </returns>
+    /// <response code="200">A list of rainfall readings successfully retrieved</response>
+    /// <response code="400">Invalid request</response>
+    /// <response code="404">No readings found for the specified stationId</response>
+    /// <response code="500">Internal server error</response>
     [HttpGet("id/{stationId}/readings")]
     [SwaggerOperation(OperationId = "get-rainfall")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RainfallReadingResponse))]
