@@ -1,9 +1,12 @@
 using Microsoft.OpenApi.Models;
 using RainfallApi;
 using RainfallApi.App;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -43,6 +46,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseSerilogRequestLogging();
 
 // app.UseHttpsRedirection();
 
