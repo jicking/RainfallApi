@@ -13,19 +13,17 @@ public class GetReadingsByStationHandlerTests
         const string stationId = "stationId";
         const int count = 10;
         var mockUkRainfallService = new Mock<IUKRainfallService>();
-        var expectedResponse = new UKRainfallReadingResponse
+        var readings = new List<StationReading>
         {
-            items = new List<StationReading>
-        {
-            new StationReading { dateTime = DateTime.Now, value = 10 },
-            new StationReading { dateTime = DateTime.Now, value = 15 }
-        }
+            new StationReading(DateTime.Now, 10),
+            new StationReading(DateTime.Now, 15)
         };
+        var expectedResponse = new UKRainfallReadingResponse(readings);
 
         mockUkRainfallService.Setup(s => s.GetStationReadingsAsync(stationId, count))
                              .ReturnsAsync(expectedResponse);
 
-        var handler = new GetReadingsByStationHandler(mockUkRainfallService.Object);
+        var handler = new GetReadingsByStationQueryHandler(mockUkRainfallService.Object);
         var query = new GetReadingsByStationQuery(stationId, count);
 
         // Act

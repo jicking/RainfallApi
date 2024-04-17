@@ -1,12 +1,5 @@
 ﻿namespace RainfallApi.App.Models;
 
-public class UKRainfallReadingResponse
-{
-    public required List<StationReading> items { get; set; }
-}
+public record UKRainfallReadingResponse(List<StationReading> items);
 
-public class StationReading
-{
-    public DateTime dateTime { get; set; }
-    public Decimal value { get; set; }
-}
+public record StationReading(DateTime dateTime, Decimal value);

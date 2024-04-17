@@ -28,7 +28,7 @@ public class RainfallControllerTests
         // Arrange
         _mediatorMock.Setup(m => m.Send(It.IsAny<GetReadingsByStationQuery>(), CancellationToken.None))
                      .ReturnsAsync(new List<RainfallReading>() {
-                         new RainfallReading() { DateMeasured = DateTime.Now, AmountMeasured = 1 }
+                         new RainfallReading(DateTime.Now, 1)
                      });
 
         // Act

@@ -19,10 +19,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
     {
         _logger.LogError(exception, $"Exception occurred: { exception.Message}");
 
-        var errorResponse = new ErrorResponse()
-        {
-            Message = exception.Message
-        };
+        var errorResponse = new ErrorResponse(exception.Message);
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 

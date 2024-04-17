@@ -44,18 +44,12 @@ public class RainfallController : Controller
         {
             if (count <= 0 || count > 100)
             {
-                var errorResponse = new ErrorResponse()
-                {
-                    Details = new List<ErrorDetail>()
-                {
-                    new ErrorDetail()
-                    {
-                        PropertyName = "count",
-                        Message = Constants.ErrorMessageReadingBadRequestInvalidCount
-                    }
-                },
-                    Message = Constants.ErrorMessageReadingBadRequest
-                };
+                var errorResponse = 
+                    new ErrorResponse(
+                        Constants.ErrorMessageReadingBadRequest,
+                        new List<ErrorDetail>() { 
+                            new ErrorDetail("count", Constants.ErrorMessageReadingBadRequestInvalidCount) 
+                        });
                 return BadRequest(errorResponse);
             }
 
@@ -63,26 +57,17 @@ public class RainfallController : Controller
 
             if (!readings.Any())
             {
-                var errorResponse = new ErrorResponse()
-                {
-                    Message = Constants.ErrorMessageReadingNotFound
-                };
+                var errorResponse = new ErrorResponse(Constants.ErrorMessageReadingNotFound);
                 return NotFound(errorResponse);
             }
 
-            var response = new RainfallReadingResponse
-            {
-                Readings = readings.ToList(),
-            };
+            var response = new RainfallReadingResponse(readings.ToList());
             return Ok(response);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, $"Exception occurred: {ex.Message}");
-            var errorResponse = new ErrorResponse()
-            {
-                Message = ex.Message
-            };
+            var errorResponse = new ErrorResponse(ex.Message);
             return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
         }
     }
