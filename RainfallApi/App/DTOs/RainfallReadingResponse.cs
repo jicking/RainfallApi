@@ -6,4 +6,4 @@ namespace RainfallApi.App.DTOs;
 public record RainfallReading(DateTime DateMeasured, decimal AmountMeasured);
 
 [SwaggerSchema(Title = "Rainfall reading response", Description = "Details of a rainfall reading")]
-public record RainfallReadingResponse(List<RainfallReading> Readings);
+public record RainfallReadingResponse(IReadOnlyList<RainfallReading> Readings);
