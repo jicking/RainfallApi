@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using RainfallApi.App.Queries;
 using RainfallApi.App.DTOs;
+using RainfallApi.App.Queries;
 
 namespace RainfallApi.App;
 

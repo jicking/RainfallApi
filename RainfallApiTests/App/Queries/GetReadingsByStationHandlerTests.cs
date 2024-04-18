@@ -13,11 +13,8 @@ public class GetReadingsByStationHandlerTests
         const string stationId = "stationId";
         const int count = 10;
         var mockUkRainfallService = new Mock<IUKRainfallService>();
-        var readings = new List<StationReading>
-        {
-            new StationReading(DateTime.Now, 10),
-            new StationReading(DateTime.Now, 15)
-        };
+        List<StationReading> readings
+            = [new StationReading(DateTime.Now, 10), new StationReading(DateTime.Now, 15)];
         var expectedResponse = new UKRainfallReadingResponse(readings);
 
         mockUkRainfallService.Setup(s => s.GetStationReadingsAsync(stationId, count))

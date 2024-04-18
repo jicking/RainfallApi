@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
-using RainfallApi.App.Queries;
 using RainfallApi.App.DTOs;
+using RainfallApi.App.Queries;
 using Xunit;
 using Assert = Xunit.Assert;
 
