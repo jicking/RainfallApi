@@ -1,4 +1,4 @@
-﻿namespace RainfallApi.App.Models;
+﻿namespace RainfallApi.App.DTOs;
 
 public record UKRainfallReadingResponse(List<StationReading> items);
 

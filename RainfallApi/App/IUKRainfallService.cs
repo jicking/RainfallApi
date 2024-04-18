@@ -1,4 +1,4 @@
-﻿using RainfallApi.App.Models;
+﻿using RainfallApi.App.DTOs;
 
 namespace RainfallApi.App;
 

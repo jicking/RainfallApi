@@ -1,5 +1,5 @@
 ﻿using Moq;
-using RainfallApi.App.Models;
+using RainfallApi.App.DTOs;
 using Xunit;
 using Assert = Xunit.Assert;
 

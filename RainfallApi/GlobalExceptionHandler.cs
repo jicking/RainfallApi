@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using RainfallApi.App.ResponseModels;
+using RainfallApi.App.DTOs;
 
 namespace RainfallApi;
 
@@ -17,7 +17,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
-        _logger.LogError(exception, $"Exception occurred: { exception.Message}");
+        _logger.LogError(exception, $"Exception occurred: {exception.Message}");
 
         var errorResponse = new ErrorResponse(exception.Message);
 

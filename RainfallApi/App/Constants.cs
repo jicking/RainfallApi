@@ -10,7 +10,7 @@ public static class Constants
 
     public const string RainfallEndpointsPrefix = "/rainfall";
     public const string RainfallEndpointsTag = "Rainfall";
-    
+
     public const string GetRainfallOperationId = "get-rainfall";
 
 

@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using RainfallApi.App.Queries;
-using RainfallApi.App.ResponseModels;
 using Microsoft.OpenApi.Models;
+using RainfallApi.App.Queries;
+using RainfallApi.App.DTOs;
 
 namespace RainfallApi.App;
 
@@ -13,11 +13,11 @@ public static class RainfallEndpoints
     {
         var group = app.MapGroup(Constants.RainfallEndpointsPrefix)
             .WithOpenApi(o => new OpenApiOperation(o)
-             {
+            {
                 Tags = new List<OpenApiTag> {
                     new() { Name = Constants.RainfallEndpointsTag }
                 },
-             });
+            });
 
         group.MapGet("id/{stationId}/readings", GetRainfallReadingsAsync)
             .Produces<RainfallReadingResponse>(StatusCodes.Status200OK)
@@ -49,9 +49,9 @@ public static class RainfallEndpoints
             return TypedResults.BadRequest(
                 new ErrorResponse(
                     Constants.ErrorMessageReadingBadRequest,
-                    new List<ErrorDetail>() {
-                            new ErrorDetail("count", Constants.ErrorMessageReadingBadRequestInvalidCount)
-                }));
+                    [new ErrorDetail("count", Constants.ErrorMessageReadingBadRequestInvalidCount)]
+                )
+            );
         }
 
         var readings = await mediator.Send(new GetReadingsByStationQuery(stationId, count));

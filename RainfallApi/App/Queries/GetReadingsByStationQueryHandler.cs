@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RainfallApi.App.ResponseModels;
+using RainfallApi.App.DTOs;
 
 namespace RainfallApi.App.Queries;
 
